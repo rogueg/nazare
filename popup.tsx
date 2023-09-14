@@ -7,11 +7,19 @@ export default function IndexPopup() {
   let [loading, setLoading] = useState(false)
   let [result, setResult] = useState(null)
 
+  useEffect(() => {
+    if (localStorage.getItem('lastUrl') == window.location.toString()) {
+      setObjective(localStorage.getItem('lastObjective'))
+    }
+  }, [])
+
   async function computeNextStep () {
     setLoading(true)
     try {
       let page = await parsePage()
       let ns = await nextStep(objective, page)
+      localStorage.setItem('lastUrl', window.location.toString())
+      localStorage.setItem('lastObjective', objective)
       setResult(ns)
     } catch (e) {
       console.error(e)
