@@ -11,6 +11,7 @@ interface Target {
   loading: boolean
   nextStep: any
   tab: any
+  screenshot: string
 }
 
 class Runner {
@@ -62,6 +63,7 @@ export default observer(function Parallel () {
       await chrome.tabs.update(target.tab.id, {url})
     }
     await tabLoad(target.tab)
+    // target.screenshot = await chrome.tabs.captureVisibleTab(target.tab.windowId, {format: 'png'})
     let page = await parsePage(target.tab)
     target.nextStep = await nextStep(runner.objective, page)
     target.loading = false
@@ -71,6 +73,7 @@ export default observer(function Parallel () {
     {runner.targets.map(t => <div key={t.startUrl}>
       <div>{t.startUrl}</div>
       {t.currentUrl != t.startUrl ? <div>{t.currentUrl}</div> : null}
+      {/* <img src={t.screenshot} /> */}
       {renderStep(t)}
     </div>)}
   </div>
