@@ -38,8 +38,12 @@ export async function nextStep (objective:string, page:Page) {
 
   if (choice.function_call && choice.function_call.name == 'click_link') {
     let args = JSON.parse(choice.function_call.arguments)
-    let url = page.links.find(l => l[0] == args.text)[1]
-    return {type: 'link', url, text: args.text}
+    let link = page.links.find(l => l[0] == args.text)
+    if (link) {
+      return {type: 'link', url: link[1], text: args.text}
+    } else {
+      return {type: 'done', text: 'Hallucinated link ' + args.text}
+    }
   }
 
   return {type: 'done', text: choice.content}
