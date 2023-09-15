@@ -5,9 +5,8 @@ export interface Page {
   links: string[][]
 }
 
-export async function parsePage (): Promise<Page> {
-  let tabs = await chrome.tabs.query({currentWindow: true, active: true})
-  let response = await chrome.scripting.executeScript({target: {tabId: tabs[0].id}, func: contentScript})
+export async function parsePage (tab): Promise<Page> {
+  let response = await chrome.scripting.executeScript({target: {tabId: tab.id}, func: contentScript})
   console.log(response)
   return response[0].result
 }

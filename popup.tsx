@@ -16,7 +16,8 @@ export default function IndexPopup() {
   async function computeNextStep () {
     setLoading(true)
     try {
-      let page = await parsePage()
+      let tabs = await chrome.tabs.query({currentWindow: true, active: true})
+      let page = await parsePage(tabs[0])
       let ns = await nextStep(objective, page)
       localStorage.setItem('lastUrl', window.location.toString())
       localStorage.setItem('lastObjective', objective)
@@ -37,7 +38,10 @@ export default function IndexPopup() {
     await computeNextStep()
   }
 
-  let body = <button onClick={computeNextStep}>Start</button>
+  let body = <>
+    <button onClick={computeNextStep}>Start</button>
+    <a href={window.location.origin + '/tabs/parallel.html'} target="_blank">Parallel</a>
+  </>
 
   if (loading) {
     body = <div>Thinking...</div>

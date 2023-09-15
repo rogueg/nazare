@@ -10,6 +10,8 @@
     "test": "plasmo test"
   },
   "dependencies": {
+    "mobx": "^6.10.2",
+    "mobx-react-lite": "^4.0.4",
     "plasmo": "0.83.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -24,7 +26,10 @@
     "typescript": "5.2.2"
   },
   "manifest": {
-    "permissions": ["scripting", "tabs"],
+    "permissions": [
+      "scripting",
+      "tabs"
+    ],
     "host_permissions": [
       "https://*/*"
     ]

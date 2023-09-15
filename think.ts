@@ -2,6 +2,12 @@ import type { Page } from "~parse"
 
 const OPENAI_KEY = 'XX'
 
+export interface Step {
+  type: string
+  text: string
+  url: string
+}
+
 export async function nextStep (objective:string, page:Page) {
   let messages = [{
     role: 'user',

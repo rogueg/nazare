@@ -4,6 +4,10 @@ Nazare is like AutoGPT for the browser. You can give it a task (like "figure out
 
 # Future
 * Fanning out, running instructions against many similar pages in parallel
+* list extraction
+* tab multi-select
+* storing logs and results of threads
+* ability to diagnose threads that failed, and iterate on prompts
 * Parser generation
 * Page compression
 * Putting links in context
