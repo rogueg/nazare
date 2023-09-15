@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { parsePage, type Page, tabLoad } from "~parse"
 import { nextStep } from "~think"
+import './basic.css'
 
 export default function IndexPopup() {
-  let [objective, setObjective] = useState("what is this company's mission?")
+  let [objective, setObjective] = useState('')
   let [loading, setLoading] = useState(false)
   let [result, setResult] = useState(null)
 
@@ -38,18 +39,18 @@ export default function IndexPopup() {
     await computeNextStep()
   }
 
-  let body = <>
-    <button onClick={computeNextStep}>Start</button>
-    <a href={window.location.origin + '/tabs/parallel.html'} target="_blank">Parallel</a>
-  </>
+  let body = <div className="center">
+    <button onClick={computeNextStep} className="mr12">Start</button>
+    <a href={window.location.origin + '/tabs/parallel.html'} target="_blank">Parallel Mode</a>
+  </div>
 
   if (loading) {
-    body = <div>Thinking...</div>
+    body = <div className="center">Thinking...</div>
   }
 
   else if (result?.type == 'link') {
-    body = <div>
-      Clicking on {result.text}
+    body = <div className="center">
+      <div className="mb12">Next step: click "{result.text}"</div>
       <button onClick={takeNextStep}>Go</button>
     </div>
   }
@@ -58,8 +59,8 @@ export default function IndexPopup() {
     body = <div>{result.text}</div>
   }
 
-  return <div style={{width: 400, minHeight: 200}}>
-    <input value={objective} onChange={e => setObjective(e.target.value)} />
+  return <div className="popup">
+    <input value={objective} onChange={e => setObjective(e.target.value)} className="full mb12" />
     {body}
   </div>
 }

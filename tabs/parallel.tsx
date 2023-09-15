@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx"
 import { observer } from "mobx-react-lite"
 import { parsePage, tabLoad } from "~parse"
 import { nextStep } from "~think"
+import "../basic.css"
 
 interface Target {
   title: string
@@ -19,7 +20,7 @@ class Runner {
   targets: Target[]
 
   constructor () {
-    this.targets = ['https://www.twochairs.com/', 'https://citizen.com/'].map(s => ({
+    this.targets = ['https://khealth.com/', 'https://includedhealth.com/'].map(s => ({
       startUrl: s,
       currentUrl: s,
       loading: false,
@@ -34,17 +35,17 @@ let runner = new Runner()
 export default observer(function Parallel () {
   function renderStep (target) {
     if (target.loading) {
-      return <div>Loading...</div>
+      return <div className="mb12">Loading...</div>
     }
 
     if (target.nextStep?.type == 'done') {
-      return <div>{target.nextStep.text}</div>
+      return <div className="mb12">{target.nextStep.text}</div>
     }
 
     if (target.nextStep?.type == 'link') {
       return <>
-        <div>Click on {target.nextStep.text}</div>
-        <button onClick={() => takeStep(target)}>Go</button>
+        <div className="mb12">Next step: Click on "{target.nextStep.text}"</div>
+        <button className="mr12" onClick={() => takeStep(target)}>Go</button>
       </>
     }
 
@@ -65,16 +66,22 @@ export default observer(function Parallel () {
     await tabLoad(target.tab)
     // target.screenshot = await chrome.tabs.captureVisibleTab(target.tab.windowId, {format: 'png'})
     let page = await parsePage(target.tab)
+    target.title = page.title
     target.nextStep = await nextStep(runner.objective, page)
     target.loading = false
   }
 
-  return <div>
-    {runner.targets.map(t => <div key={t.startUrl}>
-      <div>{t.startUrl}</div>
+  function showTab (target) {
+    chrome.tabs.update(target.tab.id, {active: true})
+  }
+
+  return <div className="parallel">
+    {runner.targets.map(t => <div key={t.startUrl} className="row">
+      <div className="h3 mb12">{t.title || t.startUrl}</div>
       {t.currentUrl != t.startUrl ? <div>{t.currentUrl}</div> : null}
       {/* <img src={t.screenshot} /> */}
       {renderStep(t)}
+      {t.tab ? <button onClick={() => showTab(t)}>Show tab</button> : null}
     </div>)}
   </div>
 })

@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box; 
+}
+
+body {
+}
+
+.popup {
+  width: 300px;
+  min-height: 200px;
+  padding: 12px 8px;
+}
+
+.parallel {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 12px;
+}
+
+.parallel .row {
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.parallel .row:last-child { border: 0; }
+
+input.full {
+  display: block;
+  padding: 4px 8px;
+  font-size: 1.2em;
+  width: 100%;
+}
+
+.h3 { font-size: 1.2rem; }
+.mb12 { margin-bottom: 12px; }
+.mr12 { margin-right: 12px; }
+.center { text-align: center; }

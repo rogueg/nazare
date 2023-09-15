@@ -11,3 +11,8 @@ Nazare is like AutoGPT for the browser. You can give it a task (like "figure out
 * Parser generation
 * Page compression
 * Putting links in context
+
+
+# Failure modes:
+* links that aren't a tags: https://citizen.com/careers
+* filtered out anchor links get hallucinated: https://www.twochairs.com/careers-all
