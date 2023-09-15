@@ -15,9 +15,11 @@ function contentScript () {
   let url = window.location.toString()
   let title = document.title
   let body = document.body.innerText
-  let links = Array.from(document.querySelectorAll('a'))
-    .map(el => [el.innerText.trim(), el.href])
-    .filter(ln => ln[0] && ln[1])
+  let links = Array.from(document.querySelectorAll('a')).map(el => {
+    let text = el.innerText.trim().replaceAll(/[^\w\s]/g, '').replaceAll(/\s/g, ' ') // clean text, including non-printing and nbsp
+    if (!text || !el.href) return
+    return [text, el.href]
+  }).filter(x => x)
   return {title, url, body, links}
 }
 
