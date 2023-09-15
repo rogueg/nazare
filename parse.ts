@@ -12,12 +12,13 @@ export async function parsePage (tab): Promise<Page> {
 }
 
 function contentScript () {
-  let url = window.location.toString()
+  let url = window.location.toString().replace(/#.*/, '')
   let title = document.title
   let body = document.body.innerText
   let links = Array.from(document.querySelectorAll('a')).map(el => {
     let text = el.innerText.trim().replaceAll(/[^\w\s]/g, '').replaceAll(/\s/g, ' ') // clean text, including non-printing and nbsp
     if (!text || !el.href) return
+    if (el.href.replace(/#.*/, '') == url) return // ignore anchor links, they're red-herrings
     return [text, el.href]
   }).filter(x => x)
   return {title, url, body, links}
